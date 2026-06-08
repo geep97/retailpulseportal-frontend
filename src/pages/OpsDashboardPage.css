@@ -1,0 +1,229 @@
+/* OpsDashboardPage.css — styles scoped to ops view */
+/* Re-uses .dashboard-root, .sidebar, .main-content, .dashboard-header, etc.
+   from DashboardPage.css — only ops-specific rules here */
+
+/* ─── Ops avatar accent ───────────────────────────────── */
+.ops-avatar {
+  background: #f39c12 !important;
+}
+
+/* ─── Top stat cards ──────────────────────────────────── */
+.ops-stat-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ops-stat-card {
+  background: #fff;
+  border: 1px solid #e8edf3;
+  border-radius: 10px;
+  padding: 16px 18px;
+  border-top: 3px solid #3498db;
+}
+
+.ops-stat-highlight {
+  border-top-color: #f39c12;
+}
+
+.ops-stat-label {
+  font-size: 11px;
+  color: #8a9bb0;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.ops-stat-value {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f1f3d;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.ops-stat-accent {
+  font-size: 16px;
+}
+
+.ops-stat-sub {
+  font-size: 11px;
+  color: #8a9bb0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ops-pending-names {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* ─── Bottom panels row ───────────────────────────────── */
+.ops-panels {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 14px;
+}
+
+.ops-panel {
+  background: #fff;
+  border: 1px solid #e8edf3;
+  border-radius: 10px;
+  padding: 18px 20px;
+  min-width: 0;
+}
+
+.ops-panel-header {
+  margin-bottom: 16px;
+}
+
+.ops-panel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f1f3d;
+  margin-bottom: 4px;
+}
+
+.ops-drill-hint {
+  font-size: 11px;
+  color: #8a9bb0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ops-drill-link {
+  color: #3498db;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ops-submission-count {
+  font-size: 11px;
+  color: #3498db;
+  font-weight: 600;
+}
+
+/* ─── Branch performance bars ─────────────────────────── */
+.ops-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ops-bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 90px;
+  align-items: center;
+  gap: 12px;
+}
+
+.ops-bar-label {
+  font-size: 13px;
+  color: #0f1f3d;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ops-bar-track {
+  background: #f0f2f5;
+  border-radius: 4px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ops-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.ops-bar-empty {
+  font-size: 11px;
+  color: #b0bec5;
+  padding-left: 10px;
+}
+
+.ops-bar-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f1f3d;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ─── Submission list ─────────────────────────────────── */
+.ops-submission-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ops-submission-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f4f6f9;
+}
+
+.ops-submission-row:last-child {
+  border-bottom: none;
+}
+
+.ops-sub-left {
+  min-width: 0;
+}
+
+.ops-sub-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f1f3d;
+}
+
+.ops-sub-date {
+  font-size: 11px;
+  color: #8a9bb0;
+  margin-top: 1px;
+}
+
+.ops-sub-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.ops-sub-badge i {
+  font-size: 12px;
+}
+
+.badge-submitted {
+  background: #eaf7ef;
+  color: #27ae60;
+}
+
+.badge-pending {
+  background: #fff8ec;
+  color: #f39c12;
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .ops-stat-cards { grid-template-columns: repeat(2, 1fr); }
+  .ops-panels      { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .ops-stat-cards { grid-template-columns: 1fr 1fr; }
+}
