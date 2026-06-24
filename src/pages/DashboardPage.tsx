@@ -267,36 +267,39 @@ export default function DashboardPage() {
   const chartUp = chartPctChange !== null && parseFloat(chartPctChange) >= 0;
 
   const statCards = [
-    {
-      label:    'Total Revenue',
-      value:    formatCurrency(summary?.total_revenue || 0),
-      delta:    summary?.revenue_delta_pct ?? null,
-      accent:   summary?.revenue_delta_pct !== null && (summary?.revenue_delta_pct ?? 0) >= 0
-                  ? '#27ae60' : '#e74c3c',
-    },
-    {
-      label:    'Transactions',
-      value:    `${summary?.total_transactions?.toLocaleString()} sales`,
-      delta:    summary?.transactions_delta_pct ?? null,
-      accent:   summary?.transactions_delta_pct !== null && (summary?.transactions_delta_pct ?? 0) >= 0
-                  ? '#27ae60' : '#e74c3c',
-    },
-    {
-      label:    'Avg Basket',
-      value:    formatCurrency(summary?.avg_basket || 0),
-      delta:    summary?.avg_basket_delta_pct ?? null,
-      accent:   summary?.avg_basket_delta_pct !== null && (summary?.avg_basket_delta_pct ?? 0) >= 0
-                  ? '#27ae60' : '#e74c3c',
-    },
-    {
-      label:    'Stock Alerts',
-      value:    `${summary?.stock_alert_count ?? 0} items`,
-      delta:    null,
-      accent:   (summary?.stock_alert_count ?? 0) > 0 ? '#e74c3c' : '#27ae60',
-      isAlert:  true,
-      alertText: (summary?.stock_alert_count ?? 0) > 0 ? 'Low stock' : 'All clear',
-    },
-  ];
+  {
+    label: 'Total Revenue',
+    value: formatCurrency(summary?.week_revenue ?? 0),
+    delta: summary?.revenue_delta_pct ?? null,
+    accent: '#1a5fa8',
+    isAlert: false,
+  },
+  {
+    label: 'Transactions',
+    value: `${(summary?.week_transactions ?? 0).toLocaleString()} sales`,
+    delta: summary?.transactions_delta_pct ?? null,
+    accent: '#2ecc71',
+    isAlert: false,
+  },
+  {
+    label: 'Avg Basket',
+    value: formatCurrency(summary?.week_avg_basket ?? 0),
+    delta: summary?.avg_basket_delta_pct ?? null,
+    accent: '#f39c12',
+    isAlert: false,
+  },
+  {
+    label: 'Stock Alerts',
+    value: `${summary?.stock_alert_count ?? 0} items`,
+    delta: null,
+    accent: (summary?.stock_alert_count ?? 0) > 0 ? '#e74c3c' : '#27ae60',
+    isAlert: true,
+    alertText:
+      (summary?.stock_alert_count ?? 0) > 0
+        ? 'Low stock'
+        : 'All clear',
+  },
+];
 
   return (
     <div className="dashboard-root">
@@ -492,7 +495,7 @@ export default function DashboardPage() {
 
             {/* TOP PRODUCTS */}
             <div className="chart-card">
-              <div className="chart-card-title">Top Products — This Week</div>
+              <div className="chart-card-title">Top Products — {summary?.week_label}</div>
               {topProducts.map((product, index) => (
                 <div key={product.product_id} className="product-row">
                   <div className="product-left">

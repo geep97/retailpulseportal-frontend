@@ -132,19 +132,20 @@ export default function UploadPage({ onLogout }: { onLogout: () => void }) {
     };
 
     const fetchWeeks = async () => {
-        try {
-            const res = await fetch(`${API_URL}/api/dashboard/available-weeks`, {
-                credentials: 'include'
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setWeekOptions(data.weeks);
-                if (data.weeks.length > 0) {
-                    setSelectedWeek(data.weeks[0]);
-                }
+    try {
+        const res = await fetch(
+            `${API_URL}/api/dashboard/available-weeks?mode=all`,  // ← add ?mode=all
+            { credentials: 'include' }
+        );
+        if (res.ok) {
+            const data = await res.json();
+            setWeekOptions(data.weeks);
+            if (data.weeks.length > 0) {
+                setSelectedWeek(data.weeks[0]);
             }
-        } catch { }
-    };
+        }
+    } catch { }
+};
 
     const fetchHistory = async () => {
         setHistoryLoading(true);
