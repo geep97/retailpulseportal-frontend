@@ -146,7 +146,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   min-width: 0;
 }
 
@@ -213,7 +213,6 @@
 /* ─── Body ────────────────────────────────────────────── */
 .dashboard-body {
   flex: 1;
-  overflow-y: auto;
   padding: 20px 24px;
 }
 

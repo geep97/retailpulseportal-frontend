@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './OpsDashboardPage.css';
 import React from 'react';
 
@@ -47,18 +46,7 @@ interface WeekOption {
   week_label: string;
 }
 
-const OPS_NAV = [
-  { label: 'Chain Overview',    icon: 'ti-layout-dashboard', path: '/dashboard'  },
-  { label: 'Store Comparison',  icon: 'ti-chart-bar',        path: '/comparison' },
-  { label: 'Submission Status', icon: 'ti-clipboard-check',  path: '/submissions'},
-  { label: 'Inventory Alerts',  icon: 'ti-alert-triangle',   path: '/alerts'     },
-  { label: 'Settings',          icon: 'ti-settings',         path: '/settings'   },
-];
-
 const BAR_COLORS = ['#3498db', '#3498db', '#2ecc71', '#f39c12', '#e67e22', '#e74c3c'];
-
-const getInitials = (name: string | null) =>
-  name ? name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2) : '??';
 
 const fmt = (v: number) =>
   `GH₵ ${v.toLocaleString('en-GH', { minimumFractionDigits: 0 })}`;
@@ -114,7 +102,6 @@ export default function OpsDashboardPage({
   summary: Summary;
   onLogout: () => void;
 }) {
-  const navigate = useNavigate();
   const [ops, setOps] = useState<OpsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -200,40 +187,8 @@ export default function OpsDashboardPage({
   const pendingCount = ops.total_stores - ops.submitted_count;
 
   return (
-    <div className="dashboard-root">
-      <div className="sidebar ops-sidebar">
-        <div className="sidebar-brand">
-          <div className="sidebar-brand-name">RetailPulse GH</div>
-          <div className="sidebar-brand-sub">Operations Portal</div>
-        </div>
-        <nav className="sidebar-nav">
-          {OPS_NAV.map((item) => (
-            <div
-              key={item.label}
-              className={`sidebar-nav-item ${item.path === '/dashboard' ? 'active' : ''}`}
-              onClick={() => navigate(item.path)}
-            >
-              <i className={`ti ${item.icon}`} aria-hidden="true" />
-              {item.label}
-            </div>
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="sidebar-footer-user">
-            <div className="sidebar-avatar ops-avatar">
-              {getInitials(summary.user_name)}
-            </div>
-            <div className="sidebar-footer-text">
-              <div className="sidebar-footer-name">{summary.user_name ?? 'Head of Operations'}</div>
-              <div className="sidebar-footer-role">Head of Operations</div>
-            </div>
-          </div>
-          <button className="logout-btn" onClick={onLogout}>Logout</button>
-        </div>
-      </div>
-
-      <div className="main-content">
-        <div className="dashboard-header">
+    <>
+      <div className="dashboard-header">
           <h1>Chain Overview — All Branches</h1>
           <div className="dashboard-header-right">
             <div className="week-navigator" ref={pickerRef}>
@@ -379,7 +334,6 @@ export default function OpsDashboardPage({
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

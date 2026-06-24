@@ -46,17 +46,6 @@ interface Summary {
     week_submitted: boolean;
 }
 
-const NAV = [
-    { label: 'Dashboard',        icon: 'ti-layout-dashboard', path: '/dashboard'  },
-    { label: 'Upload Data',      icon: 'ti-upload',           path: '/upload'     },
-    { label: 'Upload History',   icon: 'ti-history',          path: '/history'    },
-    { label: 'Inventory Alerts', icon: 'ti-alert-triangle',   path: '/alerts'     },
-    { label: 'My Account',       icon: 'ti-user',             path: '/account'    },
-];
-
-const getInitials = (name: string | null) =>
-    name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '??';
-
 const fmtRevenue = (v: number) =>
     `GH₵ ${v.toLocaleString('en-GH', { minimumFractionDigits: 0 })}`;
 
@@ -269,45 +258,7 @@ export default function UploadPage({ onLogout }: { onLogout: () => void }) {
     };
 
     return (
-        <div className="dashboard-root">
-            {/* ── SIDEBAR ── */}
-            <div className="sidebar">
-                <div className="sidebar-brand">
-                    <div className="sidebar-brand-name">RetailPulse GH</div>
-                    <div className="sidebar-brand-sub">Store Portal</div>
-                </div>
-                <nav className="sidebar-nav">
-                    {NAV.map(item => (
-                        <div
-                            key={item.label}
-                            className={`sidebar-nav-item ${item.path === '/upload' ? 'active' : ''}`}
-                            onClick={() => navigate(item.path)}
-                        >
-                            <i className={`ti ${item.icon}`} />
-                            {item.label}
-                        </div>
-                    ))}
-                </nav>
-                <div className="sidebar-footer">
-                    <div className="sidebar-footer-user">
-                        <div className="sidebar-avatar">
-                            {getInitials(summary?.user_name ?? null)}
-                        </div>
-                        <div className="sidebar-footer-text">
-                            <div className="sidebar-footer-name">
-                                {summary?.user_name ?? 'Manager'}
-                            </div>
-                            <div className="sidebar-footer-role">
-                                {summary?.store_name ?? 'Store'} · Manager
-                            </div>
-                        </div>
-                    </div>
-                    <button className="logout-btn" onClick={onLogout}>Logout</button>
-                </div>
-            </div>
-
-            {/* ── MAIN CONTENT ── */}
-            <div className="main-content">
+        <>
                 {/* Header */}
                 <div className="dashboard-header">
                     <h1>Upload Weekly Data</h1>
@@ -608,7 +559,6 @@ export default function UploadPage({ onLogout }: { onLogout: () => void }) {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+        </>
     );
 }
