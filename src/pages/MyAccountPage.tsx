@@ -20,7 +20,7 @@ export default function MyAccountPage() {
 
   // Fetch profile details on mount
   useEffect(() => {
-    fetch(`${API_URL}/api/dashboard/profile`, { credentials: 'include' })
+    fetch(`${API_URL}/dashboard/profile`, { credentials: 'include' })
       .then((res) => {
         if (!res.ok) throw new Error();
         return res.json();
