@@ -23,7 +23,7 @@ export default function DashboardLayout() {
 
   useEffect(() => {
     // Fetch basic profile info to populate the sidebar footer user details
-    fetch(`${API_URL}/api/dashboard/profile`, { credentials: 'include' })
+    fetch(`${API_URL}/api/api/dashboard/profile`, { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => setUser(data))
       .catch(() => {});
