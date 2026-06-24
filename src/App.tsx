@@ -8,40 +8,43 @@ import HistoryPage from './pages/HistoryPage';
 import AlertsPage from './pages/AlertsPage';
 import MyAccountPage from './pages/MyAccountPage';
 import StoreComparisonPage from './pages/StoreComparisonPage';
-import SubmissionStatusPage from './pages/SubmissionStatusPage';
+import SubmissionStatusPage from './pages/Submissionstatuspage';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    fetch(`${API_URL}/me`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then((res) => setIsAuthenticated(res.ok))
-      .catch(() => setIsAuthenticated(false));
-  }, []);
-
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
-  }
-
-  return isAuthenticated ? <>{children}</> : <Navigate to="/" replace />;
-}
-
-// Layout wrapper component that provides the sticky Sidebar to all pages
+// Layout wrapper component that provides the sticky Sidebar to all pages.
+// Also doubles as the auth gate: /api/dashboard/profile requires a valid
+// session and 401s otherwise, so a single fetch covers both "am I logged in"
+// and "what should the sidebar show" instead of two sequential round-trips.
 function PortalLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [profile, setProfile] = useState<any>(null);
+  const [authState, setAuthState] = useState<'checking' | 'ok' | 'denied'>('checking');
 
   useEffect(() => {
+    let cancelled = false;
     fetch(`${API_URL}/api/dashboard/profile`, { credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => setProfile(data))
-      .catch(() => {});
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          if (!cancelled) setAuthState('denied');
+          return null;
+        }
+        if (!res.ok) throw new Error('Failed to load profile');
+        return res.json();
+      })
+      .then((data) => {
+        if (cancelled || !data) return;
+        setProfile(data);
+        setAuthState('ok');
+      })
+      .catch(() => {
+        if (!cancelled) setAuthState('denied');
+      });
+    return () => { cancelled = true; };
+    // Intentionally run once per PortalLayout mount only — this component
+    // stays mounted across child route changes (the Outlet below swaps),
+    // so navigating between /dashboard, /upload, etc. does NOT refetch.
   }, []);
 
   const handleLogout = async () => {
@@ -53,6 +56,14 @@ function PortalLayout() {
     if (!name) return '??';
     return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
   };
+
+  if (authState === 'checking') {
+    return <div className="dashboard-loading">Loading...</div>;
+  }
+
+  if (authState === 'denied') {
+    return <Navigate to="/" replace />;
+  }
 
   const isOps = profile?.role === 'ops';
 
@@ -137,13 +148,7 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
 
         {/* All portal pages share the frame layout */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <PortalLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route element={<PortalLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/upload" element={<UploadPage onLogout={handleLogout} />} />
           <Route path="/history" element={<HistoryPage onLogout={handleLogout} />} />
