@@ -13,7 +13,7 @@ import SubmissionStatusPage from './pages/Submissionstatuspage';
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Layout wrapper component that provides the sticky Sidebar to all pages.
-// Also doubles as the auth gate: /api/api/dashboard/profile requires a valid
+// Also doubles as the auth gate: /api/dashboard/profile requires a valid
 // session and 401s otherwise, so a single fetch covers both "am I logged in"
 // and "what should the sidebar show" instead of two sequential round-trips.
 function PortalLayout() {
@@ -24,7 +24,7 @@ function PortalLayout() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${API_URL}/api/api/dashboard/profile`, { credentials: 'include' })
+    fetch(`${API_URL}/api/dashboard/profile`, { credentials: 'include' })
       .then((res) => {
         if (res.status === 401 || res.status === 403) {
           if (!cancelled) setAuthState('denied');
