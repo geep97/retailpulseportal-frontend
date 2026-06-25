@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/server/:path*",
+      "destination": "https://retailpulseportalapi.onrender.com/:path*"
+    }
+  ]
+}
