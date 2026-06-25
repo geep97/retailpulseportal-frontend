@@ -3,6 +3,10 @@
     {
       "source": "/server/:path*",
       "destination": "https://retailpulseportalapi.onrender.com/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
