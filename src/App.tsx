@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
@@ -42,9 +42,6 @@ function PortalLayout() {
         if (!cancelled) setAuthState('denied');
       });
     return () => { cancelled = true; };
-    // Intentionally run once per PortalLayout mount only — this component
-    // stays mounted across child route changes (the Outlet below swaps),
-    // so navigating between /dashboard, /upload, etc. does NOT refetch.
   }, []);
 
   const handleLogout = async () => {
@@ -131,15 +128,29 @@ function PortalLayout() {
 
       {/* RIGHT SIDE DYNAMIC CONTENT WINDOW */}
       <div className="main-content">
-        <Outlet />
+        <Outlet context={{ profile, isOps }} />
       </div>
     </div>
   );
 }
 
+// Wraps a route element and only renders it if the signed-in user's role
+// matches. Otherwise redirects to /dashboard — the one page every role can
+// see — instead of rendering an empty/broken page shell for a mismatched role.
+function RoleRoute({ allow, children }: { allow: ('ops' | 'manager')[]; children: React.ReactNode }) {
+  const { isOps } = useOutletContext<{ profile: any; isOps: boolean }>();
+  const role = isOps ? 'ops' : 'manager';
+  if (!allow.includes(role)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <>{children}</>;
+}
+
 export default function App() {
   const handleLogout = () => {
-    window.location.href = '/';
+    fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' }).finally(() => {
+      window.location.href = '/';
+    });
   };
 
   return (
@@ -150,12 +161,12 @@ export default function App() {
         {/* All portal pages share the frame layout */}
         <Route element={<PortalLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/upload" element={<UploadPage onLogout={handleLogout} />} />
-          <Route path="/history" element={<HistoryPage onLogout={handleLogout} />} />
-          <Route path="/alerts" element={<AlertsPage onLogout={handleLogout} />} />
+          <Route path="/upload" element={<RoleRoute allow={['manager']}><UploadPage onLogout={() => { fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' }).finally(() => { window.location.href = '/'; }); }} /></RoleRoute>} />
+          <Route path="/history" element={<RoleRoute allow={['manager']}><HistoryPage /></RoleRoute>} />
+          <Route path="/alerts" element={<AlertsPage />} />
           <Route path="/account" element={<MyAccountPage />} />
-          <Route path="/comparison" element={<StoreComparisonPage />} />
-          <Route path="/submissions" element={<SubmissionStatusPage />} />
+          <Route path="/comparison" element={<RoleRoute allow={['ops']}><StoreComparisonPage /></RoleRoute>} />
+          <Route path="/submissions" element={<RoleRoute allow={['ops']}><SubmissionStatusPage /></RoleRoute>} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AlertsPage.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -55,8 +54,7 @@ const severityLabel = (s: string) => {
     return                       { label: 'Watch',        color: '#3498db', bg: '#edf4fb' };
 };
 
-export default function AlertsPage({ onLogout }: { onLogout: () => void }) {
-    const navigate = useNavigate();
+export default function AlertsPage() {
     const [summary, setSummary]   = useState<Summary | null>(null);
     const [data, setData]         = useState<AlertsData | null>(null);
     const [loading, setLoading]   = useState(true);

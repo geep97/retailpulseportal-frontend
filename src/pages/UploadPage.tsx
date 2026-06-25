@@ -63,7 +63,7 @@ const fmtTime = (iso: string) => {
     });
 };
 
-export default function UploadPage({ onLogout }: { onLogout: () => void }) {
+export default function UploadPage() {
     const navigate = useNavigate();
 
     // ── User context ──
