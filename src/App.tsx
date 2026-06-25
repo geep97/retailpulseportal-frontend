@@ -147,12 +147,6 @@ function RoleRoute({ allow, children }: { allow: ('ops' | 'manager')[]; children
 }
 
 export default function App() {
-  const handleLogout = () => {
-    fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' }).finally(() => {
-      window.location.href = '/';
-    });
-  };
-
   return (
     <BrowserRouter>
       <Routes>
@@ -161,7 +155,7 @@ export default function App() {
         {/* All portal pages share the frame layout */}
         <Route element={<PortalLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/upload" element={<RoleRoute allow={['manager']}><UploadPage onLogout={() => { fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' }).finally(() => { window.location.href = '/'; }); }} /></RoleRoute>} />
+          <Route path="/upload" element={<RoleRoute allow={['manager']}><UploadPage /></RoleRoute>} />
           <Route path="/history" element={<RoleRoute allow={['manager']}><HistoryPage /></RoleRoute>} />
           <Route path="/alerts" element={<AlertsPage />} />
           <Route path="/account" element={<MyAccountPage />} />
