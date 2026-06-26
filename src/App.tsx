@@ -9,6 +9,7 @@ import AlertsPage from './pages/AlertsPage';
 import MyAccountPage from './pages/MyAccountPage';
 import StoreComparisonPage from './pages/StoreComparisonPage';
 import SubmissionStatusPage from './pages/Submissionstatuspage';
+import ManageUsersPage from './pages/Manageuserspage';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -77,6 +78,7 @@ function PortalLayout() {
     { label: 'Store Comparison',  icon: 'ti-chart-bar',        path: '/comparison'},
     { label: 'Submission Status', icon: 'ti-clipboard-check',  path: '/submissions'},
     { label: 'Inventory Alerts',  icon: 'ti-alert-triangle',   path: '/alerts'    },
+    { label: 'Manage Users',      icon: 'ti-users',            path: '/users'     },
     { label: 'My Account',        icon: 'ti-user',             path: '/account'   },
   ];
 
@@ -161,6 +163,7 @@ export default function App() {
           <Route path="/account" element={<MyAccountPage />} />
           <Route path="/comparison" element={<RoleRoute allow={['ops']}><StoreComparisonPage /></RoleRoute>} />
           <Route path="/submissions" element={<RoleRoute allow={['ops']}><SubmissionStatusPage /></RoleRoute>} />
+          <Route path="/users" element={<RoleRoute allow={['ops']}><ManageUsersPage /></RoleRoute>} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
