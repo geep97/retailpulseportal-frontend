@@ -39,7 +39,7 @@ const fmtTime = (iso: string) =>
 
 type FilterType = 'all' | 'passed' | 'fixed' | 'excluded';
 
-export default function HistoryPage({ onLogout }: { onLogout: () => void }) {
+export default function HistoryPage() {
     const navigate = useNavigate();
     const [summary, setSummary]     = useState<Summary | null>(null);
     const [history, setHistory]     = useState<UploadHistoryItem[]>([]);
