@@ -325,6 +325,16 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      <div
+        style={{
+          padding: '6px 0 16px 0',
+          fontSize: '13px',
+          color: '#8a9bb0',
+        }}
+      >
+        Lifetime revenue (incl. 2023 baseline): <strong style={{ color: '#5a6b80' }}>{formatCurrency(summary?.total_revenue ?? 0)}</strong>
+      </div>
+
       <div className="dashboard-body">
         {/* UPLOAD BANNER */}
         {summary?.week_submitted === false && (

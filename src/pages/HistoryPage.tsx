@@ -39,7 +39,7 @@ const fmtTime = (iso: string) =>
 
 type FilterType = 'all' | 'passed' | 'fixed' | 'excluded';
 
-export default function HistoryPage() {
+export default function HistoryPage({ onLogout }: { onLogout: () => void }) {
     const navigate = useNavigate();
     const [summary, setSummary]     = useState<Summary | null>(null);
     const [history, setHistory]     = useState<UploadHistoryItem[]>([]);
@@ -279,12 +279,14 @@ export default function HistoryPage() {
                                                 </div>
                                             </div>
 
-                                            <button
-                                                className="hist-reupload-btn"
-                                                onClick={() => navigate('/upload')}
-                                            >
-                                                <i className="ti ti-upload" /> Re-upload this week
-                                            </button>
+                                            {item.week_start && (
+                                                <button
+                                                    className="hist-reupload-btn"
+                                                    onClick={() => navigate('/upload')}
+                                                >
+                                                    <i className="ti ti-upload" /> Re-upload this week
+                                                </button>
+                                            )}
                                         </div>
                                     )}
                                 </div>
