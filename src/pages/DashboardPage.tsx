@@ -249,6 +249,7 @@ export default function DashboardPage() {
       delta: summary?.revenue_delta_pct ?? null,
       accent: '#1a5fa8',
       isAlert: false,
+      subtext: `Lifetime: ${formatCurrency(summary?.total_revenue ?? 0)}`,
     },
     {
       label: 'Transactions',
@@ -325,16 +326,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div
-        style={{
-          padding: '6px 0 16px 0',
-          fontSize: '13px',
-          color: '#8a9bb0',
-        }}
-      >
-        Lifetime revenue (incl. 2023 baseline): <strong style={{ color: '#5a6b80' }}>{formatCurrency(summary?.total_revenue ?? 0)}</strong>
-      </div>
-
       <div className="dashboard-body">
         {/* UPLOAD BANNER */}
         {summary?.week_submitted === false && (
@@ -366,6 +357,11 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <Delta pct={card.delta} />
+              )}
+              {card.subtext && (
+                <div style={{ fontSize: '12px', color: '#8a9bb0', marginTop: '4px' }}>
+                  {card.subtext}
+                </div>
               )}
             </div>
           ))}
