@@ -290,7 +290,21 @@
 }
 
 @media (max-width: 720px) {
-    .sidebar         { display: none; }
     .hist-stat-strip { grid-template-columns: repeat(2, 1fr); }
     .hist-row-mid    { display: none; }
+
+    .hist-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .hist-row-left {
+        width: 100%;
+    }
+
+    .hist-row-right {
+        width: 100%;
+        justify-content: space-between;
+    }
 }

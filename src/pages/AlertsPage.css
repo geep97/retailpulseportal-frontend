@@ -242,6 +242,63 @@
 }
 
 @media (max-width: 720px) {
-    .sidebar { display: none; }
     .alerts-stat-strip { grid-template-columns: 1fr 1fr; }
+
+    .alerts-stat {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .alerts-stat > div:last-child {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .alerts-stat-label {
+        min-width: 0;
+        overflow-wrap: break-word;
+    }
+
+    .alerts-critical-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .alerts-critical-banner strong {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .alerts-critical-banner span {
+        display: block;
+    }
+
+    /* The 5-column table (after Unit Price and Status are hidden at
+       1100px) still doesn't fit a phone screen. Rather than squeeze
+       the columns further and make text unreadable, let the table
+       scroll horizontally within its own card — column widths stay
+       fixed and legible, the person swipes to see the rest. */
+    .alerts-table-card {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .alerts-table-header,
+    .alerts-table-row {
+        min-width: 560px;
+    }
+
+    .alerts-cat-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+    }
+
+    .alerts-cat-tab {
+        flex-shrink: 0;
+    }
 }

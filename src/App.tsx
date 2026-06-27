@@ -10,6 +10,7 @@ import MyAccountPage from './pages/MyAccountPage';
 import StoreComparisonPage from './pages/StoreComparisonPage';
 import SubmissionStatusPage from './pages/Submissionstatuspage';
 import ManageUsersPage from './pages/Manageuserspage';
+import './MobileNav.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,6 +23,7 @@ function PortalLayout() {
   const location = useLocation();
   const [profile, setProfile] = useState<any>(null);
   const [authState, setAuthState] = useState<'checking' | 'ok' | 'denied'>('checking');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,6 +46,10 @@ function PortalLayout() {
       });
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     await fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' });
@@ -86,12 +92,36 @@ function PortalLayout() {
 
   return (
     <div className="dashboard-root">
+      {/* MOBILE TOP BAR — only visible below the mobile breakpoint */}
+      <div className="mobile-topbar">
+        <button
+          className="mobile-menu-btn"
+          aria-label="Open menu"
+          onClick={() => setMobileNavOpen(true)}
+        >
+          <i className="ti ti-menu-2" aria-hidden="true" />
+        </button>
+        <div className="mobile-topbar-brand">RetailPulse GH</div>
+      </div>
+
+      {/* BACKDROP — closes the drawer when tapped outside it */}
+      {mobileNavOpen && (
+        <div className="mobile-nav-backdrop" onClick={() => setMobileNavOpen(false)} />
+      )}
+
       {/* GLOBAL SIDEBAR */}
-      <div className={`sidebar ${isOps ? 'ops-sidebar' : ''}`}>
+      <div className={`sidebar ${isOps ? 'ops-sidebar' : ''} ${mobileNavOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-brand">
           <div className="sidebar-brand-name">RetailPulse GH</div>
           <div className="sidebar-brand-sub">{isOps ? 'Operations Portal' : 'Store Portal'}</div>
         </div>
+        <button
+          className="mobile-close-btn"
+          aria-label="Close menu"
+          onClick={() => setMobileNavOpen(false)}
+        >
+          <i className="ti ti-x" aria-hidden="true" />
+        </button>
 
         <nav className="sidebar-nav">
           {NAV_ITEMS.map((item) => (

@@ -317,6 +317,17 @@
 
 @media (max-width: 720px) {
   .ops-stat-cards { grid-template-columns: 1fr 1fr; }
+
+  .ops-stat-card {
+    min-width: 0;
+  }
+
+  .ops-stat-sub {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    overflow-wrap: break-word;
+  }
 }
 
 .week-picker-year {

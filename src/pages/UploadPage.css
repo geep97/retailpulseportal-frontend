@@ -488,3 +488,37 @@
   .upload-panels  { grid-template-columns: 1fr; }
   .result-stats   { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 480px) {
+  .step-connector {
+    flex: 1;
+    min-width: 16px;
+    margin: 0 6px;
+  }
+
+  .step-label {
+    font-size: 12px;
+  }
+
+  .step-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  .history-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .history-mid {
+    white-space: normal;
+  }
+
+  .history-right {
+    width: 100%;
+  }
+}

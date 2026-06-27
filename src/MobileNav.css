@@ -1,0 +1,102 @@
+/* ── Mobile top bar — hidden on desktop, shown below the breakpoint ──── */
+.mobile-topbar {
+  display: none;
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: #0f1f3d;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mobile-topbar-brand {
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f1f3d;
+  letter-spacing: -0.3px;
+}
+
+/* ── Backdrop behind the open drawer ──────────────────────────────── */
+.mobile-nav-backdrop {
+  display: none;
+}
+
+/* ── Close button inside the drawer — hidden on desktop ───────────── */
+.mobile-close-btn {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  /* Reflow the page shell vertically: top bar, then content below */
+  .dashboard-root {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #fff;
+    border-bottom: 1px solid #e8edf3;
+    flex-shrink: 0;
+  }
+
+  /* The sidebar becomes a fixed, off-canvas drawer instead of disappearing */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+    max-width: 80vw;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 31, 61, 0.45);
+    z-index: 999;
+  }
+
+  .mobile-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .main-content {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
